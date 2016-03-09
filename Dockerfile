@@ -38,18 +38,18 @@ ADD hadoop/conf/core-site.xml.template $HADOOP_CONF_DIR/
 
 RUN chmod 600 /root/.ssh/config; \
 	chown root:root /root/.ssh/config; \
+	chmod 700 $ACCUMULO_SETUP_DIR/*.sh; \
+	chown root:root $ACCUMULO_SETUP_DIR/*.sh;\
 	$ACCUMULO_SETUP_DIR/setup_hadoop.sh; \
 	$ACCUMULO_SETUP_DIR/setup_zookeeper.sh; \
-	$ACCUMULO_SETUP_DIR/setup_accumulo.sh; \
-	chown root:root $ACCUMULO_SETUP_DIR/*.sh;\
-	chmod 700 $ACCUMULO_SETUP_DIR/*.sh
+	$ACCUMULO_SETUP_DIR/setup_accumulo.sh
 
 #Replace Hadoop and Zookeeper Configuration
 ADD hadoop/conf/*.xml $HADOOP_CONF_DIR/
 ADD zookeeper/* $ZOOKEEPER_HOME/conf/
 
 USER hdfs
-RUN hdfs namenode -format
+RUN  hdfs namenode -format
 
 USER root
 
