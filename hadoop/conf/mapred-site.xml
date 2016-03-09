@@ -3,16 +3,4 @@
         <name>mapreduce.framework.name</name>
         <value>yarn</value>
     </property>
-    <property>
-        <name>mapred.local.dir</name>
-        <value>/data/hadoop/cache/mapred-local</value> 
-    </property>
-    <property>
-        <name>mapred.temp.dir</name>
-        <value>/data/hadoop/cache/mapred-tmp</value> 
-    </property>
-    <property>
-       <name>mapred.system.dir</name>
-       <value>/data/hadoop/mapred-system</value>
-    </property>
 </configuration>
