@@ -2,25 +2,25 @@ FROM ceagan/wildfly:9.0.2.Final
 
 USER root
 
-RUN yum clean all; \
-	yum install -y curl which tar sudo openssh-server openssh-clients rsync supervisor; \
-	yum update -y libselinux; \
-	mkdir -p /var/run/sshd /var/log/supervisor; \
-	curl -LO https://archive.cloudera.com/cdh5/one-click-install/redhat/7/x86_64/cloudera-cdh-5-0.x86_64.rpm; \
-	yum -y --nogpgcheck localinstall cloudera-cdh-5-0.x86_64.rpm; \ 
-	rpm --import http://archive.cloudera.com/cdh5/redhat/7/x86_64/cdh/RPM-GPG-KEY-cloudera; \
-	yum install -y hadoop-conf-pseudo; \
-	curl -s http://apache.claz.org/accumulo/1.7.1/accumulo-1.7.1-bin.tar.gz | tar -xz -C /usr/lib; \
-	ln -s /usr/lib/accumulo-1.7.1 /usr/lib/accumulo;\
- 	chown -R root:root /usr/lib/accumulo-1.7.1
- 	
+RUN yum install -y curl which tar sudo openssh-server openssh-clients rsync supervisor && \
+	yum update -y libselinux && \
+	mkdir -p /var/run/sshd /var/log/supervisor && \
+	curl -LO https://archive.cloudera.com/cdh5/one-click-install/redhat/7/x86_64/cloudera-cdh-5-0.x86_64.rpm && \
+	yum -y --nogpgcheck localinstall cloudera-cdh-5-0.x86_64.rpm && \
+	rpm --import http://archive.cloudera.com/cdh5/redhat/7/x86_64/cdh/RPM-GPG-KEY-cloudera && \
+	yum install -y hadoop-conf-pseudo && \
+	curl -s http://apache.claz.org/accumulo/1.7.1/accumulo-1.7.1-bin.tar.gz | tar -xz -C /usr/lib && \
+	ln -s /usr/lib/accumulo-1.7.1 /usr/lib/accumulo && \
+	chown -R root:root /usr/lib/accumulo-1.7.1 && \
+	yum clean all
+
 #Supervisord for managing the services
 ADD supervisord/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # passwordless ssh
-RUN ssh-keygen -q -N "" -t dsa -f /etc/ssh/ssh_host_dsa_key; \
-	ssh-keygen -q -N "" -t rsa -f /etc/ssh/ssh_host_rsa_key; \
-	ssh-keygen -q -N "" -t rsa -f /root/.ssh/id_rsa; \
+RUN ssh-keygen -q -N "" -t dsa -f /etc/ssh/ssh_host_dsa_key && \
+	ssh-keygen -q -N "" -t rsa -f /etc/ssh/ssh_host_rsa_key && \
+	ssh-keygen -q -N "" -t rsa -f /root/.ssh/id_rsa && \
 	cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
 #Hadoop, Zookeeper and Accumulo Environment Variables
@@ -36,12 +36,13 @@ ADD hadoop/ssh_config /root/.ssh/config
 ADD accumulo/* $ACCUMULO_SETUP_DIR/
 ADD hadoop/conf/core-site.xml.template $HADOOP_CONF_DIR/
 
-RUN chmod 600 /root/.ssh/config; \
-	chown root:root /root/.ssh/config; \
-	chmod 700 $ACCUMULO_SETUP_DIR/*.sh; \
-	chown root:root $ACCUMULO_SETUP_DIR/*.sh;\
-	$ACCUMULO_SETUP_DIR/setup_hadoop.sh; \
-	$ACCUMULO_SETUP_DIR/setup_zookeeper.sh; \
+RUN chmod 600 /root/.ssh/config && \
+	chown root:root /root/.ssh/config && \
+	chmod 700 $ACCUMULO_SETUP_DIR/*.sh && \
+	chown root:root $ACCUMULO_SETUP_DIR/*.sh	
+
+RUN $ACCUMULO_SETUP_DIR/setup_hadoop.sh && \
+	$ACCUMULO_SETUP_DIR/setup_zookeeper.sh && \
 	$ACCUMULO_SETUP_DIR/setup_accumulo.sh
 
 #Replace Hadoop and Zookeeper Configuration
