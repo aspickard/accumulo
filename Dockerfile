@@ -24,16 +24,18 @@ RUN ssh-keygen -q -N "" -t dsa -f /etc/ssh/ssh_host_dsa_key && \
 	cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
 #Hadoop, Zookeeper and Accumulo Environment Variables
-ENV HOSTNAME=localhost HADOOP_HOME=/usr/lib/hadoop HADOOP_PREFIX=/usr/lib/hadoop \
+ENV HADOOP_HOME=/usr/lib/hadoop HADOOP_PREFIX=/usr/lib/hadoop \
 	HADOOP_LIBEXEC_DIR=/usr/lib/hadoop/libexec HADOOP_COMMON_HOME=/usr/lib/hadoop HADOOP_HDFS_HOME=/usr/lib/hadoop-hdfs \
 	HADOOP_MAPRED_HOME=/usr/lib/hadoop-mapreduce HADOOP_YARN_HOME=/usr/lib/hadoop-yarn \
 	HADOOP_CONF_DIR=/usr/lib/hadoop/etc/hadoop YARN_CONF_DIR=/usr/lib/hadoop-yarn/etc/hadoop \
-	ACCUMULO_SETUP_DIR=/etc/accumulo ZOOKEEPER_HOME=/usr/lib/zookeeper ACCUMULO_HOME=/usr/lib/accumulo
+	ACCUMULO_SETUP_DIR=/etc/accumulo ZOOKEEPER_HOME=/usr/lib/zookeeper ACCUMULO_HOME=/usr/lib/accumulo \
+	USER=root
 	
 ENV PATH=$PATH:$HADOOP_HOME/bin:$JAVA_HOME/bin:$ACCUMULO_HOME/bin:$ZOOKEEPER_HOME/bin
 
 ADD hadoop/ssh_config /root/.ssh/config
-ADD accumulo/* $ACCUMULO_SETUP_DIR/
+ADD accumulo/*.sh $ACCUMULO_SETUP_DIR/
+ADD accumulo/conf/* $ACCUMULO_HOME/conf/
 ADD hadoop/conf/core-site.xml.template $HADOOP_CONF_DIR/
 
 RUN chmod 600 /root/.ssh/config && \
@@ -73,5 +75,6 @@ EXPOSE 2181
 ## Accumulo Ports
 EXPOSE 2181 50095
 
-CMD ["/etc/accumulo/init.sh", "-bash"]
+ADD init.sh /tmp/
+RUN /tmp/init.sh
 
