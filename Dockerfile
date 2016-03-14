@@ -9,11 +9,11 @@ RUN yum install -y curl which tar sudo openssh-server openssh-clients rsync supe
 	yum -y --nogpgcheck localinstall cloudera-cdh-5-0.x86_64.rpm && \
 	rpm --import http://archive.cloudera.com/cdh5/redhat/7/x86_64/cdh/RPM-GPG-KEY-cloudera && \
 	yum install -y hadoop-conf-pseudo && \
-	curl -s http://apache.claz.org/accumulo/1.7.1/accumulo-1.7.1-bin.tar.gz | tar -xz -C /usr/lib && \
-	ln -s /usr/lib/accumulo-1.7.1 /usr/lib/accumulo && \
-	chown -R root:root /usr/lib/accumulo-1.7.1 && \
+	curl -s http://apache.claz.org/accumulo/1.6.5/accumulo-1.6.5-bin.tar.gz | tar -xz -C /usr/lib && \
+	ln -s /usr/lib/accumulo-1.6.5 /usr/lib/accumulo && \
+	chown -R root:root /usr/lib/accumulo-1.6.5 && \
 	yum clean all
-
+#Check line 7 see if docker has it by default
 #Supervisord for managing the services
 ADD supervisord/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
@@ -73,6 +73,5 @@ EXPOSE 2181
 ## Accumulo Ports
 EXPOSE 2181 50095
 
-RUN $ACCUMULO_SETUP_DIR/init.sh
+CMD ["/etc/accumulo/init.sh", "-bash"]
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
