@@ -10,6 +10,3 @@ cp $HADOOP_CONF_DIR/*.xml $HADOOP_PREFIX/input
 #Create directories for hdfs files and mapred temporary files
 mkdir -p /data/hadoop
 chown -R hdfs:hadoop /data/hadoop
- 
-# altering the core-site configuration
-sed s/HOSTNAME/$HOSTNAME/ $HADOOP_CONF_DIR/core-site.xml.template > $HADOOP_CONF_DIR/core-site.xml

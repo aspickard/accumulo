@@ -23,7 +23,7 @@
 
   <property>
     <name>instance.volumes</name>
-    <value></value>
+    <value>hdfs://HOSTNAME:9000/accumulo</value>
     <description>comma separated list of URIs for volumes. example: hdfs://localhost:9000/accumulo</description>
   </property>
 

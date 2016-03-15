@@ -4,15 +4,19 @@
 		<value>1</value>
 	</property>
 	<property>
- 		<name>dfs.name.dir</name>
- 		<value>/data/hadoop/nn</value>
- 	</property>
- 	<property>
- 		<name>dfs.data.dir</name>
- 		<value>/data/hadoop/dn</value>
- 	</property>
- 	<property>
- 		<name>dfs.permissions.supergroup</name>
- 		<value>hadoop</value>
- 	</property>
+		<name>dfs.name.dir</name>
+		<value>/data/hadoop/nn</value>
+	</property>
+	<property>
+		<name>dfs.data.dir</name>
+		<value>/data/hadoop/dn</value>
+	</property>
+	<property>
+		<name>dfs.permissions.supergroup</name>
+		<value>hadoop</value>
+	</property>
+	<property>
+		<name>dfs.datanode.synconclose</name>
+		<value>true</value>
+	</property>
 </configuration>

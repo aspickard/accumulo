@@ -36,7 +36,7 @@ ENV PATH=$PATH:$HADOOP_HOME/bin:$JAVA_HOME/bin:$ACCUMULO_HOME/bin:$ZOOKEEPER_HOM
 ADD hadoop/ssh_config /root/.ssh/config
 ADD accumulo/*.sh $ACCUMULO_SETUP_DIR/
 ADD accumulo/conf/* $ACCUMULO_HOME/conf/
-ADD hadoop/conf/core-site.xml.template $HADOOP_CONF_DIR/
+
 
 RUN chmod 600 /root/.ssh/config && \
 	chown root:root /root/.ssh/config && \
@@ -48,7 +48,7 @@ RUN $ACCUMULO_SETUP_DIR/setup_hadoop.sh && \
 	$ACCUMULO_SETUP_DIR/setup_accumulo.sh
 
 #Replace Hadoop and Zookeeper Configuration
-ADD hadoop/conf/*.xml $HADOOP_CONF_DIR/
+ADD hadoop/conf/* $HADOOP_CONF_DIR/
 ADD zookeeper/* $ZOOKEEPER_HOME/conf/
 
 USER hdfs
@@ -75,6 +75,6 @@ EXPOSE 2181
 ## Accumulo Ports
 EXPOSE 2181 50095
 
-ADD init.sh /tmp/
-RUN /tmp/init.sh
+ADD init.sh $ACCUMULO_SETUP_DIR/
 
+CMD $ACCUMULO_SETUP_DIR/init.sh
