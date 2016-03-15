@@ -12,6 +12,8 @@ echo $HOSTNAME > $ACCUMULO_HOME/conf/monitor
 echo $HOSTNAME > $ACCUMULO_HOME/conf/slaves
 echo $HOSTNAME > $ACCUMULO_HOME/conf/tracers
 
+rm /tmp/*.pid
+
 #Start Supervisor for SSHD
 /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
 

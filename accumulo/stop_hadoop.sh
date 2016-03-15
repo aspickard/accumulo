@@ -8,7 +8,7 @@ $HADOOP_YARN_HOME/sbin/yarn-daemon.sh --config $YARN_CONF_DIR stop nodemanager
 echo "Stopping Yarn Daemon Resource Manager with configuration in: " $YARN_CONF_DIR
 $HADOOP_YARN_HOME/sbin/yarn-daemon.sh --config $YARN_CONF_DIR stop resourcemanager
 echo "Stopping Hadoop Daemon Secondary Name Node with configuration in: " $HADOOP_CONF_DIR 
-$HADOOP_COMMON_HOME/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR start secondarynamenode
+$HADOOP_COMMON_HOME/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR stop secondarynamenode
 echo "Stopping Hadoop Daemon Data Node with configuration in: " $HADOOP_CONF_DIR 
 $HADOOP_COMMON_HOME/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR stop datanode
 echo "Stopping Hadoop Daemon Name Node with configuration in: " $HADOOP_CONF_DIR 
