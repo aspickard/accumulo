@@ -36,7 +36,7 @@ ENV PATH=$PATH:$HADOOP_HOME/bin:$JAVA_HOME/bin:$ACCUMULO_HOME/bin:$ZOOKEEPER_HOM
 ADD hadoop/ssh_config /root/.ssh/config
 ADD accumulo/*.sh $ACCUMULO_SETUP_DIR/
 ADD accumulo/conf/* $ACCUMULO_HOME/conf/
-
+ADD init.sh $ACCUMULO_SETUP_DIR/
 
 RUN chmod 600 /root/.ssh/config && \
 	chown root:root /root/.ssh/config && \
@@ -75,6 +75,6 @@ EXPOSE 2181
 ## Accumulo Ports
 EXPOSE 2181 50095
 
-ADD init.sh $ACCUMULO_SETUP_DIR/
+
 
 CMD $ACCUMULO_SETUP_DIR/init.sh
