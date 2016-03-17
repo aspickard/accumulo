@@ -39,10 +39,14 @@ ENV PATH=$PATH:$HADOOP_HOME/bin:$JAVA_HOME/bin:$ACCUMULO_HOME/bin:$ZOOKEEPER_HOM
 
 ADD hadoop/ssh_config /root/.ssh/config
 ADD accumulo/*.sh $ACCUMULO_SETUP_DIR/
+ADD startup.sh $ACCUMULO_SETUP_DIR/
+
 ADD accumulo/conf/* $ACCUMULO_SETUP_DIR/conf/
 
 RUN chown root:root /root/.ssh/config && \	 
-	chmod 600 /root/.ssh/config
+	chmod 600 /root/.ssh/config	&& \
+	chmod 700 $ACCUMULO_SETUP_DIR/*.sh && \
+	chown root:root $ACCUMULO_SETUP_DIR/*.sh
 	
 RUN $ACCUMULO_SETUP_DIR/setup_hadoop.sh && \
 	$ACCUMULO_SETUP_DIR/setup_zookeeper.sh && \
@@ -54,15 +58,10 @@ ADD zookeeper/* $ZOOKEEPER_HOME/conf/
 
 ###PORTS	
 ## Hdfs ports
-# Data Node - 50010, 50020, 50075
-# Name Node - 8020, 9000, 50070
-# Secondary Name Node 50090
 EXPOSE 50010 50020 50070 50075 50090 8020 9000
 ## Mapred ports
 EXPOSE 19888
 ## Yarn ports
-# Resource Manager - 8030, 8031, 8032, 8033, 8088
-# Node Manager - 8040, 8042
 EXPOSE 8030 8031 8032 8033 8040 8042 8088
 ## Other ports
 EXPOSE 49707 2122
@@ -73,6 +72,5 @@ EXPOSE 4560 9997 9999 12234 50091 50095
 
 #Supervisord for managing the services
 ADD supervisord/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-ADD startup.sh $ACCUMULO_SETUP_DIR/
 
 CMD ["/etc/accumulo/startup.sh", "-d"]
