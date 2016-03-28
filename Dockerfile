@@ -56,6 +56,10 @@ RUN $ACCUMULO_SETUP_DIR/setup_hadoop.sh && \
 ADD hadoop/conf/* $HADOOP_CONF_DIR/
 ADD zookeeper/* $ZOOKEEPER_HOME/conf/
 
+RUN $HADOOP_HOME/etc/hadoop/hadoop-env.sh && \
+	sed "s/HOSTNAME/$HOSTNAME/g" $HADOOP_CONF_DIR/core-site.xml.template > $HADOOP_CONF_DIR/core-site.xml && \
+	su -s /bin/bash hdfs -c '$HADOOP_HDFS_HOME/bin/hdfs namenode -format'
+
 ###PORTS	
 ## Hdfs ports
 EXPOSE 50010 50020 50070 50075 50090 8020 9000

@@ -4,16 +4,13 @@ export USER=`whoami`
 
 sed "s/HOSTNAME/$HOSTNAME/g" $ACCUMULO_HOME/conf/accumulo-site-template.xml > $ACCUMULO_HOME/conf/accumulo-site.xml
 sed "s/HOSTNAME/$HOSTNAME/g" $ACCUMULO_HOME/conf/client.conf.template > $ACCUMULO_HOME/conf/client.conf
+sed "s/HOSTNAME/$HOSTNAME/g" $HADOOP_CONF_DIR/core-site.xml.template > $HADOOP_CONF_DIR/core-site.xml
 
 echo $HOSTNAME > $ACCUMULO_HOME/conf/gc
 echo $HOSTNAME > $ACCUMULO_HOME/conf/masters
 echo $HOSTNAME > $ACCUMULO_HOME/conf/monitor
 echo $HOSTNAME > $ACCUMULO_HOME/conf/slaves
 echo $HOSTNAME > $ACCUMULO_HOME/conf/tracers
-
-#Set hadoop env
-$HADOOP_HOME/etc/hadoop/hadoop-env.sh
-su -s /bin/bash hdfs -c '$HADOOP_HDFS_HOME/bin/hdfs namenode -format'
 
 rm /tmp/*.pid
 
