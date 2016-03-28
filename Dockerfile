@@ -57,8 +57,11 @@ ADD hadoop/conf/* $HADOOP_CONF_DIR/
 ADD zookeeper/* $ZOOKEEPER_HOME/conf/
 
 RUN $HADOOP_HOME/etc/hadoop/hadoop-env.sh && \
-	sed "s/HOSTNAME/$HOSTNAME/g" $HADOOP_CONF_DIR/core-site.xml.template > $HADOOP_CONF_DIR/core-site.xml && \
-	su -s /bin/bash hdfs -c '$HADOOP_HDFS_HOME/bin/hdfs namenode -format'
+	sed "s/HOSTNAME/$HOSTNAME/g" $HADOOP_CONF_DIR/core-site.xml.template > $HADOOP_CONF_DIR/core-site.xml
+USER hdfs
+RUN $HADOOP_HDFS_HOME/bin/hdfs namenode -format
+
+User root
 
 ###PORTS	
 ## Hdfs ports
