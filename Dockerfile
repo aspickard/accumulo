@@ -9,7 +9,7 @@ RUN yum install -y epel-release && \
 	yum -y --nogpgcheck localinstall cloudera-cdh-5-0.x86_64.rpm && \
 	rpm --import http://archive.cloudera.com/cdh5/redhat/7/x86_64/cdh/RPM-GPG-KEY-cloudera && \
 	yum install -y hadoop-conf-pseudo && \
-	curl -s http://apache.claz.org/accumulo/1.6.5/accumulo-1.6.5-bin.tar.gz | tar -xz -C /usr/lib && \
+	curl -s https://archive.apache.org/dist/accumulo/1.6.5/accumulo-1.6.5-bin.tar.gz | tar -xz -C /usr/lib && \
 	ln -s /usr/lib/accumulo-1.6.5 /usr/lib/accumulo && \
 	yum clean all
 	
