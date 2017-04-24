@@ -1,6 +1,8 @@
 #!/bin/bash
 
-sed "s/HOSTNAME/$HOSTNAME/g" $HADOOP_CONF_DIR/core-site.xml.template > $HADOOP_CONF_DIR/core-site.xml
+ADDRESS="$(hostname -I)"
+
+sed "s/HOSTNAME/$ADDRESS/g" $HADOOP_CONF_DIR/core-site.xml.template > $HADOOP_CONF_DIR/core-site.xml
 
 #Start Hadoop Services
 echo "Starting Hadoop Daemon Name Node with configuration in: " $HADOOP_CONF_DIR 
