@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ADDRESS="$(hostname -I)"
+ADDRESS="$(hostname -I | xargs)"
 
 sed "s/HOSTNAME/$ADDRESS/g" $ACCUMULO_HOME/conf/accumulo-site-template.xml > $ACCUMULO_HOME/conf/accumulo-site.xml
 sed "s/HOSTNAME/$ADDRESS/g" $ACCUMULO_HOME/conf/client.conf.template > $ACCUMULO_HOME/conf/client.conf
