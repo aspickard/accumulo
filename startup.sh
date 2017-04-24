@@ -2,15 +2,17 @@
 
 export USER=`whoami`
 
-sed "s/HOSTNAME/$HOSTNAME/g" $ACCUMULO_HOME/conf/accumulo-site-template.xml > $ACCUMULO_HOME/conf/accumulo-site.xml
-sed "s/HOSTNAME/$HOSTNAME/g" $ACCUMULO_HOME/conf/client.conf.template > $ACCUMULO_HOME/conf/client.conf
-sed "s/HOSTNAME/$HOSTNAME/g" $HADOOP_CONF_DIR/core-site.xml.template > $HADOOP_CONF_DIR/core-site.xml
+ADDRESS="$(hostname -I | xargs)"
 
-echo $HOSTNAME > $ACCUMULO_HOME/conf/gc
-echo $HOSTNAME > $ACCUMULO_HOME/conf/masters
-echo $HOSTNAME > $ACCUMULO_HOME/conf/monitor
-echo $HOSTNAME > $ACCUMULO_HOME/conf/slaves
-echo $HOSTNAME > $ACCUMULO_HOME/conf/tracers
+sed "s/HOSTNAME/$ADDRESS/g" $ACCUMULO_HOME/conf/accumulo-site-template.xml > $ACCUMULO_HOME/conf/accumulo-site.xml
+sed "s/HOSTNAME/$ADDRESS/g" $ACCUMULO_HOME/conf/client.conf.template > $ACCUMULO_HOME/conf/client.conf
+sed "s/HOSTNAME/$ADDRESS/g" $HADOOP_CONF_DIR/core-site.xml.template > $HADOOP_CONF_DIR/core-site.xml
+
+echo $ADDRESS > $ACCUMULO_HOME/conf/gc
+echo $ADDRESS > $ACCUMULO_HOME/conf/masters
+echo $ADDRESS > $ACCUMULO_HOME/conf/monitor
+echo $ADDRESS > $ACCUMULO_HOME/conf/slaves
+echo $ADDRESS > $ACCUMULO_HOME/conf/tracers
 
 rm /tmp/*.pid
 
