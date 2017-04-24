@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ADDRESS="$(hostname -I)"
+ADDRESS="$(hostname -I | xargs)"
 
 sed "s/HOSTNAME/$ADDRESS/g" $HADOOP_CONF_DIR/core-site.xml.template > $HADOOP_CONF_DIR/core-site.xml
 
