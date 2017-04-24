@@ -57,7 +57,8 @@ ADD hadoop/conf/* $HADOOP_CONF_DIR/
 ADD zookeeper/* $ZOOKEEPER_HOME/conf/
 
 RUN $HADOOP_HOME/etc/hadoop/hadoop-env.sh && \
-	sed "s/HOSTNAME/$HOSTNAME/g" $HADOOP_CONF_DIR/core-site.xml.template > $HADOOP_CONF_DIR/core-site.xml
+	ADDRESS="$(hostname -I)" \
+	sed "s/HOSTNAME/$ADDRESS/g" $HADOOP_CONF_DIR/core-site.xml.template > $HADOOP_CONF_DIR/core-site.xml
 USER hdfs
 RUN $HADOOP_HDFS_HOME/bin/hdfs namenode -format
 
