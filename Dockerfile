@@ -3,7 +3,7 @@ FROM jboss/base-jdk:8
 USER root
 
 RUN yum install -y epel-release && \
-	yum install -y curl which tar sudo openssh-server openssh-clients rsync supervisor && \
+	yum install -y curl which tar sudo openssh-server openssh-clients rsync supervisor net-tools && \
 	yum update -y libselinux && \
 	curl -LO https://archive.cloudera.com/cdh5/one-click-install/redhat/7/x86_64/cloudera-cdh-5-0.x86_64.rpm && \
 	yum -y --nogpgcheck localinstall cloudera-cdh-5-0.x86_64.rpm && \
