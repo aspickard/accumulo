@@ -4,6 +4,6 @@
 
 To build, run
 
-'''
+```
 docker build git@github.com:aspickard/accumulo.git\#1.6.6
-'''
+```
