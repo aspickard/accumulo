@@ -11,3 +11,6 @@ echo $HOSTNAME > $ACCUMULO_HOME/conf/tracers
 
 #Start Accumulo
 su -s /bin/bash accumulo -c '$ACCUMULO_HOME/bin/start-all.sh'
+
+#Start Thrift Proxy
+su -s /bin/bash accumulo proxy -p $ACCUMULO_HOME/conf/proxy.properties
