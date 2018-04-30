@@ -75,7 +75,7 @@ EXPOSE 49707 2122
 ## Zookeeper Ports
 EXPOSE 2181
 ## Accumulo Ports
-EXPOSE 4560 9997 9999 12234 50091 50095
+EXPOSE 4560 9997 9999 12234 50091 50095 42424
 
 #Supervisord for managing the services
 ADD supervisord/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
