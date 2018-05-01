@@ -3,14 +3,14 @@ FROM jboss/base-jdk:8
 USER root
 
 RUN yum install -y epel-release && \
-	yum install -y curl which tar sudo openssh-server openssh-clients rsync supervisor && \
+	yum install -y curl which tar sudo openssh-server openssh-clients rsync supervisor net-tools && \
 	yum update -y libselinux && \
 	curl -LO https://archive.cloudera.com/cdh5/one-click-install/redhat/7/x86_64/cloudera-cdh-5-0.x86_64.rpm && \
 	yum -y --nogpgcheck localinstall cloudera-cdh-5-0.x86_64.rpm && \
 	rpm --import http://archive.cloudera.com/cdh5/redhat/7/x86_64/cdh/RPM-GPG-KEY-cloudera && \
 	yum install -y hadoop-conf-pseudo && \
-	curl -s http://apache.claz.org/accumulo/1.7.1/accumulo-1.7.1-bin.tar.gz | tar -xz -C /usr/lib && \
-	ln -s /usr/lib/accumulo-1.7.1 /usr/lib/accumulo && \
+	curl -s https://archive.apache.org/dist/accumulo/1.6.6/accumulo-1.6.6-bin.tar.gz | tar -xz -C /usr/lib && \
+	ln -s /usr/lib/accumulo-1.6.6 /usr/lib/accumulo && \
 	yum clean all
 	
 #Users, Groups and Directories
@@ -56,6 +56,13 @@ RUN $ACCUMULO_SETUP_DIR/setup_hadoop.sh && \
 ADD hadoop/conf/* $HADOOP_CONF_DIR/
 ADD zookeeper/* $ZOOKEEPER_HOME/conf/
 
+RUN $HADOOP_HOME/etc/hadoop/hadoop-env.sh && \
+	sed "s/HOSTNAME/$HOSTNAME/g" $HADOOP_CONF_DIR/core-site.xml.template > $HADOOP_CONF_DIR/core-site.xml
+USER hdfs
+RUN $HADOOP_HDFS_HOME/bin/hdfs namenode -format
+
+User root
+
 ###PORTS	
 ## Hdfs ports
 EXPOSE 50010 50020 50070 50075 50090 8020 9000
@@ -68,7 +75,7 @@ EXPOSE 49707 2122
 ## Zookeeper Ports
 EXPOSE 2181
 ## Accumulo Ports
-EXPOSE 4560 9997 9999 12234 50091 50095
+EXPOSE 4560 9997 9999 12234 50091 50095 42424
 
 #Supervisord for managing the services
 ADD supervisord/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
