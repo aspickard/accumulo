@@ -5,6 +5,7 @@ export USER=`whoami`
 sed "s/HOSTNAME/$HOSTNAME/g" $ACCUMULO_HOME/conf/accumulo-site-template.xml > $ACCUMULO_HOME/conf/accumulo-site.xml
 sed "s/HOSTNAME/$HOSTNAME/g" $ACCUMULO_HOME/conf/client.conf.template > $ACCUMULO_HOME/conf/client.conf
 sed "s/HOSTNAME/$HOSTNAME/g" $HADOOP_CONF_DIR/core-site.xml.template > $HADOOP_CONF_DIR/core-site.xml
+sed "s/test/accumulo/g" $ACCUMULO_HOME/proxy/proxy.propeties > $ACCUMULO_HOME/proxy/proxy.properties
 
 echo $HOSTNAME > $ACCUMULO_HOME/conf/gc
 echo $HOSTNAME > $ACCUMULO_HOME/conf/masters
